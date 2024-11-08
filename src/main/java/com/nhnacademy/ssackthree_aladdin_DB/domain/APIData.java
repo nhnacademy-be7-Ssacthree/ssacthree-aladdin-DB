@@ -40,8 +40,6 @@ public class APIData {
     @NotNull
     private String cover; //URL
     @NotNull
-    private String categoryName;
-    @NotNull
     private String publisher;
 
 }
