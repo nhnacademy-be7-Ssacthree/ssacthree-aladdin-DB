@@ -1,0 +1,7 @@
+### 도서 저장(베스트 셀러)
+GET http://localhost:8080/books/Bestseller
+Content-Type: application/json
+
+### 도서 저장(신간 도서)
+GET http://localhost:8080/books/ItemNewAll
+Content-Type: application/json

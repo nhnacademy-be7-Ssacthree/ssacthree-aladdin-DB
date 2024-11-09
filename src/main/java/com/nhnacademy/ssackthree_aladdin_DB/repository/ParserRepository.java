@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface APIRepository extends JpaRepository<APIData, String> {
+public interface ParserRepository extends JpaRepository<APIData, String> {
     boolean existsByIsbn13(String isbn13);
 }
