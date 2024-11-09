@@ -21,14 +21,14 @@ import org.springframework.web.client.RestTemplate;
 @Slf4j
 @Transactional
 public class ParserService {
-    private final List<Integer> aladdinCategoryList = List.of(51365,51355,51160,51095,4669,4671,53820,2559,89481,89482,57750,57745,57753,57942,51423,51843,51844,103882,103883,103906,103907,51541,8521,51493 ,51500,104391,104387,70229,70230,6369,387); //알라딘에서 지정한 CategoryId
-    private final List<Integer> dbCategoryList = List.of(25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55); //우리 db에서 지정한 CateogryId
-    //"공학 일반", "기계공학", "과학고전", "과학사/기술사", "시사/풍자만화","실용만화","기타 만화 이야기", "만화비평/만화이론", "외국 과학소설", "한국 과학소설","기타문학상","소월시문학상","노벨문학상","국내여행","국내여행에세이","미술에세이","영화에세이","그리스","로마","16세기","17세기","기호학","언어학", "도가철학/노장철학","동양철학 일반","Hoarding", "강박증(OCD)","기획","보고","네트워크 구축","네트워크 보안/해킹" //Category Nam
+    private final List<Integer> aladdinCategoryList = List.of(51365,51355,51160,51095,4669,4671,53820,2559,89481,89482,57750,57745,57753,57942,51423,51843,51844,103882,103883,103906,103907,51541,8521,51493 ,51500,104391,104387,70229,70230,6369,387,50994,50993); //알라딘에서 지정한 CategoryId
+    private final List<Integer> dbCategoryList = List.of(25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,57,58); //우리 db에서 지정한 CateogryId
+    //"공학 일반", "기계공학", "과학고전", "과학사/기술사", "시사/풍자만화","실용만화","기타 만화 이야기", "만화비평/만화이론", "외국 과학소설", "한국 과학소설","기타문학상","소월시문학상","노벨문학상","국내여행","국내여행에세이","미술에세이","영화에세이","그리스","로마","16세기","17세기","기호학","언어학", "도가철학/노장철학","동양철학 일반","Hoarding", "강박증(OCD)","기획","보고","네트워크 구축","네트워크 보안/해킹","2000년대 이후 한국 소설","2000년대 이전 한국 소설" //Category Nam
 
     private static int PASSEDCOUNT = 0;
     private final String API_LIST_URL = "http://www.aladin.co.kr/ttb/api/ItemList.aspx";
     private final String TTB_KEY = "ttbdbgus3150944001";
-    private final String SEARCH_TARGET = "Book";
+    private final String SEARCH_TARGET = "ALL";//도서, 외국도서,음반 등등 몰 전체
     private final String START_RESULT = "1";
     private final String MAX_RESULTS = "100";
     private final String OUTPUT = "js";
