@@ -1,4 +1,4 @@
-package com.nhnacademy.ssackthree_aladdin_DB.domain;
+package com.nhnacademy.ssacthree_aladdin_DB.domain;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;

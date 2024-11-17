@@ -1,6 +1,6 @@
-package com.nhnacademy.ssackthree_aladdin_DB.repository;
+package com.nhnacademy.ssacthree_aladdin_DB.repository;
 
-import com.nhnacademy.ssackthree_aladdin_DB.domain.Author;
+import com.nhnacademy.ssacthree_aladdin_DB.domain.Author;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

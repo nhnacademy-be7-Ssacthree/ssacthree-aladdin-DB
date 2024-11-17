@@ -1,7 +1,7 @@
-package com.nhnacademy.ssackthree_aladdin_DB.service;
+package com.nhnacademy.ssacthree_aladdin_DB.service;
 
-import com.nhnacademy.ssackthree_aladdin_DB.domain.*;
-import com.nhnacademy.ssackthree_aladdin_DB.repository.*;
+import com.nhnacademy.ssacthree_aladdin_DB.domain.*;
+import com.nhnacademy.ssacthree_aladdin_DB.repository.*;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.HtmlUtils;
 
 @Service
 @Slf4j
@@ -31,6 +32,7 @@ public class ParserService {
     private final String SEARCH_TARGET = "ALL";//도서, 외국도서,음반 등등 몰 전체
     private final String START_RESULT = "1";
     private final String MAX_RESULTS = "100";
+    private final String BIG = "big";
     private final String OUTPUT = "js";
     private final String VERSION = "20131101";
     private final int MAX_LENGTH = 255;
@@ -68,6 +70,7 @@ public class ParserService {
                         + "&SearchTarget=" + SEARCH_TARGET
                         + "&Start=" + START_RESULT
                         + "&MaxResults=" + MAX_RESULTS
+                        + "&Cover=" + BIG
                         + "&Output=" + OUTPUT
                         + "&Version=" + VERSION;
 
@@ -98,13 +101,10 @@ public class ParserService {
                     String publisherName = item.getString("publisher").trim();
                     log.info("Publisher Name: {}", publisherName); // 디버그용
 
-
-//                    String categoryName = predefinedCategoryNames.get(j);  // 알리딘 API에서 가져오는 대신 리스트에서 직접 선택
                     //카테고리 저장
                     Long dbCategoryId = Long.valueOf(dbCategoryList.get(i));
                     Category categoryResult = categoryRepository.findByCategoryId(dbCategoryId)
                             .orElseThrow(() -> new IllegalArgumentException(dbCategoryId + EXISTING_CATEGORY_ID));
-
 
                     //출판사 저장
                     if(publisherName.length() >= 30){
@@ -120,7 +120,7 @@ public class ParserService {
                     Book book = new Book();
                     book.setBookName(title);
                     book.setBookIndex(BOOK_INDEX + NO_INFO_MESSAGE);
-                    book.setBookInfo(description);
+                    book.setBookInfo(decode(description));
                     book.setBookIsbn(isbn13);
                     book.setPublicationDate(pubDate);
                     book.setRegularPrice(priceStandard);
@@ -129,7 +129,7 @@ public class ParserService {
                     book.setStock(100);
                     book.setBookThumbnailImageUrl(cover);
                     book.setBookViewCount(DEFAULT_VALUE);
-                    book.setBookDiscount(DEFAULT_VALUE);
+                    book.setBookDiscount(calculateDiscount(priceStandard, priceSales));
                     book.setPublisher(publisherResult);
 
                     if(authorName.length() >= 20){
@@ -150,7 +150,7 @@ public class ParserService {
                         BookCategory bookCategory = new BookCategory(bookResult, categoryResult);
                         bookCategoryRepository.save(bookCategory);
                     } catch (DataIntegrityViolationException e) {
-                        System.out.println("Duplicate ISBN found: " + isbn13);
+                        log.info("Duplicate ISBN found: {}" + isbn13);
                     }
 
                 }
@@ -173,6 +173,14 @@ public class ParserService {
     private String distinguishAuthors(String input){
         String[] authorsParts = input.split(",");
         return authorsParts[0].replaceAll("\\(.*?\\)","").trim();
+    }
+
+    public String decode(String encode){
+        return HtmlUtils.htmlUnescape(encode);
+    }
+
+    private int calculateDiscount(int regularPrice, int salePrice) {
+        return (int) ((regularPrice - salePrice) * 100.0 / regularPrice);
     }
 
 }

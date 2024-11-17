@@ -1,13 +1,13 @@
-package com.nhnacademy.ssackthree_aladdin_DB;
+package com.nhnacademy.ssacthree_aladdin_DB;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class SsackthreeAladdinDbApplication {
+public class SsacthreeAladdinDbApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(SsackthreeAladdinDbApplication.class, args);
+		SpringApplication.run(SsacthreeAladdinDbApplication.class, args);
 	}
 
 }
