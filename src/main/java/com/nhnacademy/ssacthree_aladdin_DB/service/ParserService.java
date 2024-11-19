@@ -127,7 +127,9 @@ public class ParserService {
                     book.setSalePrice(priceSales);
                     book.setPacked(true);
                     book.setStock(100);
-                    book.setBookThumbnailImageUrl(cover);
+
+                    String cover500 = cover.replace("cover200", "cover500").trim();
+                    book.setBookThumbnailImageUrl(cover500);
                     book.setBookViewCount(DEFAULT_VALUE);
                     book.setBookDiscount(calculateDiscount(priceStandard, priceSales));
                     book.setPublisher(publisherResult);
